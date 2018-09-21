@@ -1,0 +1,260 @@
+﻿@using Blog.Models
+@model List<User>
+
+@{
+    ViewBag.Title = "AdminPanel";
+}
+<div class="text-center">
+    <h2>Painel do Administrador</h2>
+</div>
+
+@Html.ActionLink("Cadastrar Usuario", "Create", "User", new { @class = "btn btn-info" })
+@Html.ActionLink("Painel de Categorias", "CategoryPanel", "Category", null, new { @class = "btn btn-success" })
+@Html.ActionLink("Painel de Postagens", "PostPanel", "Post", null, new { @class = "btn btn-success" })
+
+<div class="text-center">
+    <h4>Usuarios Ativos</h4>
+</div>
+
+<table class="table table-hover table-striped"
+       style="margin-top:30px">
+    <tr>
+        <th>Nome</th>
+        <th>E-Mail</th>
+        <th>Data de Cadastro</th>
+        <th>Administrador</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (User user in Model)
+    {
+        if (user.Admin == 0 && user.Status == 0)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(user.Name, "Details", "User", new { id = user.UserId }, new { @class = "btn btn-default" })
+
+                </td>
+                <td>@user.Email</td>
+                <td>@user.Date</td>
+
+                @if (user.Admin == 1)
+                {
+                    <td>Sim</td>
+                }
+                else
+                {
+                    <td>Não</td>
+                }
+                @if (user.Status == 0)
+                {
+                    <td>Ativo</td>
+                }
+                else
+                {
+                    <td>Inativo</td>
+                }
+
+
+                <td>
+                    @Html.ActionLink("Alterar Dados", "Edit", "User",
+                                                                                   new { id = user.UserId }, new { @class = "btn btn-warning" })
+                </td>
+
+                @if (user.Status == 0)
+                {
+                    <td>
+                        @Html.ActionLink("Desativar Usuario", "DisableUser", "User",
+                                                                                       new { id = user.UserId }, new { @class = "btn btn-danger" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Ativar Usuario", "EnableUser", "User",
+                                                                                       new { id = user.UserId }, new { @class = "btn btn-success" })
+                    </td>
+                }
+                <td>
+                    @Html.ActionLink("Tornar Admin", "TurnAdmin", "User", new { id = user.UserId }, new { @class = "btn btn-info" })
+                </td>
+
+            </tr>
+        }
+
+    }
+</table>
+
+
+
+<div class="text-center">
+    <h4>Administradores do Sistema</h4>
+</div>
+
+<table class="table table-hover table-striped"
+       style="margin-top:30px">
+    <tr>
+        <th>Nome</th>
+        <th>E-Mail</th>
+        <th>Data de Cadastro</th>
+        <th>Administrador</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (User user in Model)
+    {
+        if (user.Admin == 1 && user.Status == 0)
+        {
+
+            <tr>
+                <td>
+                    @Html.ActionLink(user.Name, "Details", "User", new { id = user.UserId }, new { @class = "btn btn-default" })
+
+                </td>
+                <td>@user.Email</td>
+                <td>@user.Date</td>
+
+                @if (user.Admin == 1)
+                {
+                    <td>Sim</td>
+                }
+                else
+                {
+                    <td>Não</td>
+                }
+                @if (user.Status == 0)
+                {
+                    <td>Ativo</td>
+                }
+                else
+                {
+                    <td>Inativo</td>
+                }
+
+
+                <td>
+                    @Html.ActionLink("Alterar Dados", "Edit", "User",
+                                                                                     new { id = user.UserId }, new { @class = "btn btn-warning" })
+                </td>
+
+                @if (user.Status == 0)
+                {
+                    <td>
+                        @Html.ActionLink("Desativar Usuario", "DisableUser", "User",
+                                                                                         new { id = user.UserId }, new { @class = "btn btn-danger" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Ativar Usuario", "EnableUser", "User",
+                                                                                         new { id = user.UserId }, new { @class = "btn btn-success" })
+                    </td>
+                }
+                @if (user.Name != "admin" && user.Password != "admin")
+                {
+                    <td>
+                        @Html.ActionLink("Tornar Usuario", "TurnUser", "User", new { id = user.UserId }, new { @class = "btn btn-info" })
+                    </td>
+                }
+
+
+            </tr>
+        }
+
+    }
+</table>
+
+
+
+<div class="text-center">
+    <h4>Usuarios Inativos</h4>
+</div>
+
+<table class="table table-hover table-striped"
+       style="margin-top:30px">
+    <tr>
+        <th>Nome</th>
+        <th>E-Mail</th>
+        <th>Data de Cadastro</th>
+        <th>Administrador</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (User user in Model)
+    {
+        if (user.Status == 1)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(user.Name, "Details", "User", new { id = user.UserId }, new { @class = "btn btn-default" })
+
+                </td>
+                <td>@user.Email</td>
+                <td>@user.Date</td>
+
+                @if (user.Admin == 1)
+                {
+                    <td>Sim</td>
+                }
+                else
+                {
+                    <td>Não</td>
+                }
+
+                @if (user.Status == 0)
+                {
+                    <td>Ativo</td>
+                }
+                else
+                {
+                    <td>Inativo</td>
+                }
+
+
+                <td>
+                    @Html.ActionLink("Alterar Dados", "Edit", "User",
+                                                                                   new { id = user.UserId }, new { @class = "btn btn-warning" })
+                </td>
+
+                @if (user.Status == 0)
+                {
+                    <td>
+                        @Html.ActionLink("Desativar Usuario", "DisableUser", "User",
+                                                                                       new { id = user.UserId }, new { @class = "btn btn-danger" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Ativar Usuario", "EnableUser", "User",
+                                                                                       new { id = user.UserId }, new { @class = "btn btn-success" })
+                    </td>
+                }
+
+            </tr>
+        }
+
+    }
+</table>
+
+
+<div>
+    @Html.ActionLink("Voltar a Página Inicial", "Index", null, new { @class = "btn" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

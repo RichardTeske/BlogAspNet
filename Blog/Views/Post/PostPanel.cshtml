@@ -1,0 +1,145 @@
+﻿@using Blog.Models
+@model List<Post>
+
+@{
+    ViewBag.Title = "PostPanel";
+    List<Category> categories = ViewBag.Categories;
+    List<User> users = ViewBag.Users;
+
+}
+
+
+<div class="text-center">
+    <h2>Painel do Administrador</h2>
+</div>
+
+@Html.ActionLink("Cadastrar Postagem", "Create", "Post", new { @class = "btn btn-info" })
+@Html.ActionLink("Painel de Categorias", "CategoryPanel", "Category", null, new { @class = "btn btn-success" })
+@Html.ActionLink("Painel de Usuarios", "AdminPanel", "User", null, new { @class = "btn btn-success" })
+
+<div class="text-center">
+    <h4>Postagens Ativas</h4>
+</div>
+
+<table class="table table-hover table-striped"
+       style="margin-top:30px">
+    <tr>
+        <th>Titulo</th>
+        <th>Criador</th>
+        <th>Categoria</th>
+        <th>Data de Cadastro</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (Post post in Model)
+    {
+        if (post.Status == 0)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(post.Title, "Details", "Post", new { id = post.PostId }, new { @class = "btn btn-default" })
+                </td>
+                <td>@post.User.Name</td>
+                <td>@post.Category.Name</td>
+                <td>@post.Date</td>
+                @if (post.Status == 0)
+                {
+                    <td>Ativo</td>
+                }
+                else
+                {
+                    <td>Inativo</td>
+                }
+
+
+                <td>
+                    @Html.ActionLink("Alterar Dados", "Edit", "Post", new { id = post.PostId }, new { @class = "btn btn-warning" })
+                </td>
+
+                @if (post.Status == 0)
+                {
+                    <td>
+                        @Html.ActionLink("Desativar Post", "DisablePost", "Post", new { id = post.PostId }, new { @class = "btn btn-danger" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Ativar Post", "EnablePost", "Post", new { id = post.PostId }, new { @class = "btn btn-success" })
+                    </td>
+                }
+
+            </tr>
+        }
+
+    }
+</table>
+
+
+
+<div class="text-center">
+    <h4>Postagens Inativas</h4>
+</div>
+
+<table class="table table-hover table-striped"
+       style="margin-top:30px">
+    <tr>
+        <th>Titulo</th>
+        <th>Criador</th>
+        <th>Categoria</th>
+        <th>Data de Cadastro</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (Post post in Model)
+    {
+        if (post.Status == 1)
+        {
+            <tr>
+                <td>
+                    @Html.ActionLink(post.Title, "Details", "Post", new { id = post.PostId }, new { @class = "btn btn-default" })
+                </td>
+                <td>@post.User.Name</td>
+                <td>@post.Category.Name</td>
+                <td>@post.Date</td>
+                @if (post.Status == 0)
+                {
+                    <td>Ativo</td>
+                }
+                else
+                {
+                    <td>Inativo</td>
+                }
+
+
+                <td>
+                    @Html.ActionLink("Alterar Dados", "Edit", "Post", new { id = post.PostId }, new { @class = "btn btn-warning" })
+                </td>
+
+                @if (post.Status == 0)
+                {
+                    <td>
+                        @Html.ActionLink("Desativar Post", "DisablePost", "Post", new { id = post.PostId }, new { @class = "btn btn-danger" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Ativar Post", "EnablePost", "Post", new { id = post.PostId }, new { @class = "btn btn-success" })
+                    </td>
+                }
+
+            </tr>
+        }
+
+    }
+</table>
+

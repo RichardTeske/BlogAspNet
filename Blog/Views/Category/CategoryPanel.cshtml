@@ -1,0 +1,76 @@
+﻿@using Blog.Models
+@model List<Category>
+
+@{
+    DateTime data = ViewBag.Data;
+}
+
+<div>
+    <div class="text-center">
+        <h2>Painel do Administrador</h2>
+    </div>
+
+
+    @Html.ActionLink("Cadastrar Categoria", "Create", "Category", new { @class = "btn btn-info" })
+    @Html.ActionLink("Painel de Post", "PostPanel", "Post", null, new { @class = "btn btn-success" })
+    @Html.ActionLink("Painel de Usuarios", "AdminPanel", "User", null, new { @class = "btn btn-success" })
+
+    <div class="text-center">
+        <h4>Gerenciamento de Categorias</h4>
+    </div>
+
+    <table class="table table-hover table-striped"
+           style="margin-top:30px">
+        <tr>
+            <th>Nome</th>
+            <th>Data</th>
+            <th>Status</th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        @foreach (Category cat in Model)
+        {
+
+            <tr>
+                <td>@cat.Name</td>
+                <td>@cat.Date</td>
+                @if (cat.Status == 0)
+                {
+                    <td>Ativado</td>
+                }
+                else
+                {
+                    <td>Desativado</td>
+                }
+
+
+                <td>
+                    @Html.ActionLink("Alterar", "Edit", "Category",
+                                               new { id = cat.CategoryId }, new { @class = "btn btn-warning" })
+                </td>
+
+                @if (cat.Status == 0)
+                {
+                    <td>
+                        @Html.ActionLink("Desativar", "TurnOffCategory", "Category",
+                                                   new { id = cat.CategoryId }, new { @class = "btn btn-danger" })
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        @Html.ActionLink("Ativar", "TurnOnCategory", "Category",
+                                                   new { id = cat.CategoryId }, new { @class = "btn btn-success" })
+                    </td>
+                }
+
+            </tr>
+
+
+        }
+    </table>
+
+    <p>Dados atualizados às: <b> @data </b></p>
+
+</div>

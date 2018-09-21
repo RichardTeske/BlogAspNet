@@ -1,0 +1,73 @@
+﻿@model IEnumerable<Post>
+@using Blog.Models
+
+@{
+    /**/
+
+
+    ViewBag.Title = "Home Page";
+    List<User> user = ViewBag.Users;
+    bool isPreviousLinkVisible = ViewBag.IsPreviousLinkVisible ?? false;
+    bool isNextLinkVisible = ViewBag.IsNextLinkVisible ?? false;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Blog Post - Start Bootstrap Template</title>
+
+</head>
+
+<body>
+    @foreach (Post post in Model)
+    {
+        if (post.Status == 0 && post.User.Status == 0)
+        {
+            <div class="container-fluid">
+                <div class="row">
+                    <!-- Post Content Column -->
+                    <div class="col-lg-8">
+                        <!-- Title -->
+                        
+                        <h1 class="mt-4">
+                            <a href="@Href("~/Post/Detail/"+post.PostId)">@post.Title</a>
+                        </h1>
+                        <!-- Author -->
+                        <p class="lead">
+                            by
+                            <a href="#">@post.User.Name</a>
+                        </p>
+                        <!-- Date/Time -->
+                        <p>Postado dia @post.Date</p>
+                        <!-- Post Content -->
+                        <p class="lead">@post.Body</p>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+    @if (isPreviousLinkVisible)
+    {
+        <a id="previousLink" href="@Href("~/Home/Index/" + (ViewBag.PageNumber - 1))">&lt; Pagina Anterior</a>
+    }
+
+    @if (isNextLinkVisible)
+    {
+        <a id="nextLink" href="@Href("~/Home/Index/" + (ViewBag.PageNumber + 1))">Proxima Pagina &gt;</a>
+    }
+
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,136 @@
+﻿@using Blog.Models
+@model List<User>
+@using Blog.Utils
+
+@{
+    ViewBag.Title = "AdminPanel";
+    List<Post> posts = ViewBag.MyPosts;
+    List<Comment> comments = ViewBag.MyComments;
+}
+<div class="text-center">
+    <h2>Painel do Usuario</h2>
+</div>
+
+@Html.ActionLink("Editar meu perfil", "Edit", "User", new { id = Sessao.user.UserId }, new { @class = "btn btn-info" })
+
+<div class="text-center">
+    <h4>Meus Posts</h4>
+</div>
+
+<table class="table table-hover table-striped"
+       style="margin-top:30px">
+    <tr>
+        <th>Titulo</th>
+        <th>Autor</th>
+        <th>Status</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (Post post in posts)
+    {
+
+        <tr>
+            <td>
+                @Html.ActionLink(post.Title, "Detail", "Post", new { id = post.PostId }, new { @class = "btn btn-default" })
+
+            </td>
+            <td> @post.User.Name </td>
+            @if (post.Status == 0)
+            {
+                <td>Ativo</td>
+            }
+            else
+            {
+                <td>Inativo</td>
+            }
+            <td>@post.Date</td>
+
+            <td>
+                @Html.ActionLink("Alterar", "Edit", "Post", new { id = post.PostId }, new { @class = "btn btn-warning" })
+            </td>
+
+            @if (post.Status == 0)
+            {
+                <td>
+                    @Html.ActionLink("Desativar", "DisablePost", "Post", new { id = post.PostId }, new { @class = "btn btn-danger" })
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.ActionLink("Ativar", "EnablePost", "Post", new { id = post.PostId }, new { @class = "btn btn-success" })
+                </td>
+            }
+
+        </tr>
+    }
+</table>
+
+
+
+<div class="text-center">
+    <h4>Meus Comentarios</h4>
+</div>
+<table class="table table-hover table-striped" style="margin-top:30px">
+    <tr>
+        <th>Titulo</th>
+        <th>Descrição do Comentario</th>
+        <th>Data de Cadastro</th>
+        <th>Status</th>
+        
+        <th></th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    @foreach (Comment com in comments)
+    {
+        <tr>
+            <td>
+                @Html.ActionLink(com.Post.Title, "Detail", "Post", new { id = com.Post.PostId }, new { @class = "btn btn-default" })
+
+            </td>
+            <td>@com.Body</td>
+            <td>@com.Date</td>
+
+            @if (com.Status == 0)
+            {
+                <td>Ativo</td>
+            }
+            else
+            {
+                <td>Inativo</td>
+            }
+
+            <td>
+                @Html.ActionLink("Alterar", "Edit", "Comments", new { commentId = com.CommentId, postId = com.Post.PostId  }, new { @class = "btn btn-warning" })
+            </td>
+
+            @if (com.Status == 0)
+            {
+                <td>
+                    @Html.ActionLink("Desativar", "DisableFromPanel", "Comment", new { commentId = com.CommentId }, new { @class = "btn btn-danger" })
+                </td>
+            }
+            else
+            {
+                <td>
+                    @Html.ActionLink("Ativar", "EnableFromPanel", "Comment", new { commentId = com.CommentId }, new { @class = "btn btn-success" })
+                </td>
+            }
+
+
+        </tr>
+    }
+
+    }
+</table>
+
+<div>
+    @Html.ActionLink("Voltar a Página Inicial", "Index", null, new { @class = "btn" })
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

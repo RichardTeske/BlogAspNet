@@ -1,0 +1,130 @@
+﻿@using Blog.Utils
+@using Blog.Models
+
+@{
+    /**/
+
+    ViewBag.Title = "Home Page";
+    Post post = ViewBag.Post;
+    List<Comment> comments = ViewBag.Comments;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>@post.Title</title>
+
+</head>
+
+<body>
+
+
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <!-- Post Content Column -->
+            <div class="col-lg-8">
+                <!-- Title -->
+                <h1 class="mt-4">@post.Title</h1>
+                <!-- Author -->
+                <p class="lead">
+                    by
+                    <a href="#">@post.User.Name</a>
+                </p>
+                <hr>
+                <!-- Date/Time -->
+                <p>@post.Date</p>
+                <hr>
+                <!-- Post Content -->
+                <p class="lead">@post.Body</p>
+                <hr>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h3>Comentarios</h3>
+                        </div><!-- /col-sm-12 -->
+                    </div><!-- /row -->
+                </div>
+
+
+                @foreach (Comment com in comments)
+                {
+                    if (com.Status == 0)
+                    {
+
+
+                        <div class="container">
+
+                            <div class="row">
+                                <div class="col-sm-1">
+                                    <div class="thumbnail">
+                                        <img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                    </div><!-- /thumbnail -->
+                                </div><!-- /col-sm-1 -->
+                                <div class="col-sm-5">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <strong>@com.User.Name</strong> <span class="text-muted">commentou dia @com.Date</span>
+                                        </div>
+                                        <div class="panel-body">
+                                            @com.Body
+                                        </div><!-- /panel-body -->
+                                    </div><!-- /panel panel-default -->
+                                </div><!-- /col-sm-5 -->
+                            </div><!-- /row -->
+
+                            @if (com.User.UserId == Sessao.user.UserId || Sessao.user.Admin == 1)
+                            {
+                                @Html.ActionLink("Deletar", "DisableFromPost", "Comment", new { commentId = com.CommentId, postId = com.Post.PostId }, new { @class = "btn btn-danger" })
+                            } 
+                            <hr />
+                        </div><!-- /container -->
+
+
+                    }
+                }
+
+
+                @if (Sessao.user != null)
+                {
+
+                    <!-- Comments Form -->
+                    <div class="card my-4">
+                        <h5 class="card-header">Deixe um comentario:</h5>
+                        <div class="card-body">
+                            <form action="@Href("~/Comment/Create/"+post.PostId)" method="post">
+                                <div class="form-group">
+                                    <textarea class="form-control" name="body" rows="3"></textarea>
+                                    <input type="hidden" value="@post.PostId" name="postId" />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </form>
+                        </div>
+                    </div>
+
+
+
+                }
+
+
+            </div>
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container -->
+    <!-- Footer -->
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+</body>
+
+</html>
